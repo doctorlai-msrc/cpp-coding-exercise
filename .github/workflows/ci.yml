@@ -1,39 +1,37 @@
-name: C++ Build
+name: C++ CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
-  build:
+  build-and-run:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        compiler: [g++]
-
+    env:
+      ASAN_OPTIONS: detect_leaks=1  # automatically detect memory leaks
     steps:
-      - name: Checkout repo
+      # 1. Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Install build tools
       - name: Install build tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential
+          sudo apt-get install -y build-essential g++ clang
 
-      - name: Build all examples
+      # 3. Build and run all examples dynamically
+      - name: Build and Run
         run: |
-          make
-
-      - name: Run examples
-        run: |
-          for dir in */ ; do
-            if [ -f "$dir/Makefile" ]; then
-              echo "Running $dir"
-              (cd "$dir" && make run || true)
-            fi
+          for san in address thread undefined; do
+            echo "=== Building all examples with sanitizer $san ==="
+            make SANITIZE=$san
+            echo "=== Running all examples with sanitizer $san ==="
+            make run
           done
 
-      - name: Clean
+      - name: Clean up build artifacts
         run: |
           make clean
