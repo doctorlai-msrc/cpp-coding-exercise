@@ -7,48 +7,37 @@ on:
     branches: [main]
 
 jobs:
-  # Step 1: dynamically detect example folders
-  detect-examples:
-    runs-on: ubuntu-latest
-    outputs:
-      folders: ${{ steps.set-folders.outputs.folders }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Detect example folders
-        id: set-folders
-        run: |
-          folders=$(find . -maxdepth 1 -type d -not -name '.' -exec test -f '{}/Makefile' \; -print | sed 's|^\./||' | tr '\n' ' ')
-          echo "Detected folders: $folders"
-          echo "::set-output name=folders::$folders"
-
-  # Step 2: build and run examples in parallel using a matrix
   build-and-run:
-    needs: detect-examples
     runs-on: ubuntu-latest
     env:
-      ASAN_OPTIONS: detect_leaks=1    
-    strategy:
-      matrix:
-        folder: ${{ fromJSON('["' + needs.detect-examples.outputs.folders | replace(' ', '","') + '"]') }}
-        sanitizer: [address, thread, undefined]
-
+      ASAN_OPTIONS: detect_leaks=1  # automatically detect memory leaks
     steps:
+      # 1. Checkout repo
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Install build tools
       - name: Install build tools
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential g++ clang
 
-      - name: Build example
+      # 3. Build and run all examples dynamically
+      - name: Build and run examples
         run: |
-          echo "Building ${{ matrix.folder }} with SANITIZE=${{ matrix.sanitizer }}"
-          make -C ${{ matrix.folder }} SANITIZE=${{ matrix.sanitizer }}
+          # Detect folders with Makefile
+          folders=$(find . -maxdepth 1 -type d -not -name '.' -exec test -f '{}/Makefile' \; -print | sed 's|^\./||')
+          
+          # List detected folders
+          echo "Detected example folders: $folders"
 
-      - name: Run example
-        run: |
-          echo "Running ${{ matrix.folder }} with SANITIZE=${{ matrix.sanitizer }}"
-          make -C ${{ matrix.folder }} SANITIZE=${{ matrix.sanitizer }} run
+          # Loop over each folder and sanitizer
+          for folder in $folders; do
+            for san in address thread undefined; do
+              echo "=== Building $folder with sanitizer $san ==="
+              make -C $folder SANITIZE=$san
+              
+              echo "=== Running $folder with sanitizer $san ==="
+              make -C $folder SANITIZE=$san run
+            done
+          done
