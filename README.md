@@ -74,7 +74,7 @@ Runnable examples expose a `run` target:
 make run
 ```
 
-This keeps CI safe (build-only by default) while allowing local execution.
+`make run` on top level will run all built targets.
 
 ---
 
@@ -97,17 +97,36 @@ make clean
 
 ## Shared build configuration
 
-Common compiler settings live in `common.mk`:
+Common compiler settings live in [common.mk](./common.mk):
 
 ```make
 CXX      := g++
-CXXFLAGS := -std=c++20 -O2 -Wall -Wextra
+CXXFLAGS := -std=c++20 -Wall -Wextra
 ```
 
 Individual examples may extend this, e.g.:
 
 ```make
 CXXFLAGS += -pthread
+```
+
+---
+
+## Address Sanitizer Check
+The Address Sanitizer is enabled by default to ensure there is no memory leaks or other memory problems.
+
+```make
+# Builds with AddressSanitizer automatically
+make
+
+# ThreadSanitizer
+make SANITIZE=thread
+
+# UndefinedBehaviorSanitizer
+make SANITIZE=undefined
+
+# No sanitizers
+make SANITIZE=
 ```
 
 ---

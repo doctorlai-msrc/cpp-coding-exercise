@@ -1,39 +1,52 @@
-name: C++ Build
+name: C++ CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
-  build:
+  # Step 1: dynamically detect example folders
+  detect-examples:
     runs-on: ubuntu-latest
+    outputs:
+      folders: ${{ steps.set-folders.outputs.folders }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Detect example folders
+        id: set-folders
+        run: |
+          folders=$(find . -maxdepth 1 -type d -not -name '.' -exec test -f '{}/Makefile' \; -print | sed 's|^\./||' | tr '\n' ' ')
+          echo "Detected folders: $folders"
+          echo "::set-output name=folders::$folders"
+
+  # Step 2: build and run examples in parallel using a matrix
+  build-and-run:
+    needs: detect-examples
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        compiler: [g++]
+        folder: ${{ fromJSON('["' + needs.detect-examples.outputs.folders | replace(' ', '","') + '"]') }}
+        sanitizer: [address, thread, undefined]
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install build tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential
+          sudo apt-get install -y build-essential g++ clang
 
-      - name: Build all examples
+      - name: Build example
         run: |
-          make
+          echo "Building ${{ matrix.folder }} with SANITIZE=${{ matrix.sanitizer }}"
+          make -C ${{ matrix.folder }} SANITIZE=${{ matrix.sanitizer }}
 
-      - name: Run examples
+      - name: Run example
         run: |
-          for dir in */ ; do
-            if [ -f "$dir/Makefile" ]; then
-              echo "Running $dir"
-              (cd "$dir" && make run || true)
-            fi
-          done
-
-      - name: Clean
-        run: |
-          make clean
+          echo "Running ${{ matrix.folder }} with SANITIZE=${{ matrix.sanitizer }}"
+          make -C ${{ matrix.folder }} SANITIZE=${{ matrix.sanitizer }} run
