@@ -1,0 +1,39 @@
+name: C++ Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        compiler: [g++]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+
+      - name: Build all examples
+        run: |
+          make
+
+      - name: Run examples
+        run: |
+          for dir in */ ; do
+            if [ -f "$dir/Makefile" ]; then
+              echo "Running $dir"
+              (cd "$dir" && make run || true)
+            fi
+          done
+
+      - name: Clean
+        run: |
+          make clean
