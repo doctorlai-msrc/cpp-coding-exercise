@@ -1,1 +1,17 @@
-.o
+# Object files
+*.o
+
+# Executable
+thread_safe_queue
+unique_ptr_basics
+*.out
+
+# Backup files
+*~
+*.swp
+
+# CMake / IDE files
+CMakeFiles/
+CMakeCache.txt
+*.idea/
+*.vscode/

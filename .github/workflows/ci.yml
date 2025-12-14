@@ -27,6 +27,8 @@ jobs:
   build-and-run:
     needs: detect-examples
     runs-on: ubuntu-latest
+    env:
+      ASAN_OPTIONS: detect_leaks=1    
     strategy:
       matrix:
         folder: ${{ fromJSON('["' + needs.detect-examples.outputs.folders | replace(' ', '","') + '"]') }}
