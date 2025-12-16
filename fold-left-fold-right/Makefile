@@ -1,7 +1,10 @@
-# shared compiler configuration
+# pull in shared compiler settings
 include ../common.mk
 
-TARGET := unique_ptr_basics
+# per-example flags
+CXXFLAGS += -pthread
+
+TARGET := fold_left_fold_right
 SRCS   := main.cpp
 OBJS   := $(SRCS:.cpp=.o)
 

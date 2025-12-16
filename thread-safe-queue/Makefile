@@ -22,4 +22,8 @@ run: $(TARGET)
 clean:
 	rm -f $(OBJS) $(TARGET)
 
-.PHONY: all clean run
+# Delegates to top-level Makefile
+check-format:
+	$(MAKE) -f ../Makefile check-format DIR=$(CURDIR)
+
+.PHONY: all clean run check-format
