@@ -19,6 +19,8 @@ Examples include (and will expand to):
 * Views
     * [views-zip-enumerate](./views-zip-enumerate/)
 * Atomics and memory ordering
+* Folding
+    * [fold-left-fold-right](./fold-left-fold-right/)
 * RAII and ownership patterns
 * Performance‑oriented C++ idioms
 
@@ -138,6 +140,18 @@ The `clang-format` is used to ensure the code format.
 
 ```bash
 ./clang-check.sh *.cpp *.hpp
+```
+
+At top level, you can do:
+
+```make
+make check-format-all
+```
+
+At each example directory, you can do:
+
+```make
+make check-format
 ```
 
 ---
