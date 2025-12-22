@@ -26,6 +26,8 @@ Examples include (and will expand to):
 * Parallelism
     * [parallel-transform](./parallel-transform/)
 * Performance‑oriented C++ idioms
+* Algorithms
+    * [integer-factorization](./integer-factorization/)
 
 ---
 
