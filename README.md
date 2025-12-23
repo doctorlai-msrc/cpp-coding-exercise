@@ -28,6 +28,8 @@ Examples include (and will expand to):
 * Performance‑oriented C++ idioms
 * Algorithms
     * [integer-factorization](./integer-factorization/)
+* OOP
+    * [virtual-interface](./virtual-interface/)
 
 ---
 
