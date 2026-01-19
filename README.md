@@ -32,6 +32,7 @@ Examples include (and will expand to):
     * [integer-factorization](./integer-factorization/)
     * Encoding
         * [rot47](./rot47/)
+    * [prefix-sum](./prefix-sum/)
 * Data Structures
     * [map-with-unknown-key](./map-with-unknown-key/)
 * OOP
