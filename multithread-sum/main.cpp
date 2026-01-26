@@ -7,12 +7,13 @@ This demonstrates a simple multithreaded sum calculation using C++11 threads.
 #include <vector>
 #include <thread>
 #include <numeric>
-#include <stdexcept>   // for exceptions
+#include <stdexcept> // for exceptions
 #include <limits>
 
 using SumT = unsigned long long;
 
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     std::size_t data_size = 1'000'000;
     std::size_t num_threads = 4;
@@ -36,14 +37,16 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    if (num_threads == 0) return 1;
+    if (num_threads == 0)
+        return 1;
     if (data_size == 0) {
         std::cout << "Total Sum: 0\nExpected Sum: 0\n";
         return 0;
     }
 
     // Avoid spawning more threads than elements (optional but sensible).
-    if (num_threads > data_size) num_threads = data_size;
+    if (num_threads > data_size)
+        num_threads = data_size;
 
     // Guard against int overflow in iota values.
     if (data_size > static_cast<std::size_t>(std::numeric_limits<int>::max())) {
@@ -71,7 +74,8 @@ int main(int argc, char* argv[])
         });
     }
 
-    for (auto& t : threads) t.join();
+    for (auto& t : threads)
+        t.join();
 
     const SumT global_sum = std::accumulate(partial_sums.begin(), partial_sums.end(), SumT{0});
     std::cout << "Total Sum: " << global_sum << "\n";
