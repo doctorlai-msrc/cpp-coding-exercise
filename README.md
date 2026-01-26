@@ -12,7 +12,9 @@ This repository is intended as:
 
 Examples include (and will expand to):
 
-* [thread-safe-queue](./thread-safe-queue/)
+* Multithreading
+    * [thread-safe-queue](./thread-safe-queue/)
+    * [multithread-sum](./multithread-sum/)
 * Smart pointers
     * [unique-ptr-basics](./unique-ptr-basics/)
     * [smart-ptr](./smart-ptr/)
