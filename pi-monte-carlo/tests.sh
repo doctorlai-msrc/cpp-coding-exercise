@@ -2,11 +2,14 @@
 
 set -ex
 
-./rot47
+# Run the tests
+pi=$(./pi-monte-carlo)
 
-helloworld=$(./rot47 'w6==@ (@C=5P')
-
-if [ "$helloworld" != "Hello World!" ]; then
-    echo "Test failed: expected 'Hello World!' but got '$helloworld'"
+# Check that the result is within a reasonable range
+if (( $(echo "$pi < 3.0" | bc -l) )) ||
+   (( $(echo "$pi > 3.2" | bc -l) )); then
+    echo "Test failed: pi is out of range: $pi"
     exit 1
+else
+    echo "Test passed: pi is within range: $pi"
 fi
