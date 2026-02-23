@@ -227,4 +227,4 @@ The CI will perform:
 
 Many examples intentionally focus on **edge cases** and **failure modes** (data races, lifetime issues, ordering bugs). They are meant to be read, built, and experimented with.
 
-Contributions and discussions are welcome.
+Contributions and [discussions](https://github.com/DoctorLai/cpp-coding-exercise/discussions) are welcome.
