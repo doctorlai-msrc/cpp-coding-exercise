@@ -35,6 +35,7 @@ Examples include (and will expand to):
     * Encoding
         * [rot47](./rot47/)
     * [prefix-sum](./prefix-sum/)
+    * [pi-monte-carlo](./pi-monte-carlo/)
 * Data Structures
     * [map-with-unknown-key](./map-with-unknown-key/)
 * OOP
