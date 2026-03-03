@@ -2,7 +2,8 @@
 #include <cstdlib>
 #include <iomanip>
 
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
     long long iterations = 1000000;
     if (argc > 1) {
