@@ -259,11 +259,11 @@ main(int argc, char* argv[])
     solve_dfs(state, solutions, max_solutions);
 
     if (solutions.empty()) {
-        std::cout << "No solutions found.\\n";
+        // std::cout << "No solutions found.\\n";
         return 0;
     }
 
-    std::cout << "Found " << solutions.size() << " solution(s).\\n";
+    // std::cout << "Found " << solutions.size() << " solution(s).\\n";
     for (const auto& solution : solutions) {
         std::cout << solution << "\\n";
     }
