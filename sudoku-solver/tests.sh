@@ -18,7 +18,7 @@ if ./sudoku-solver "$invalid" >/dev/null 2>&1; then
 fi
 
 limited_output=$(./sudoku-solver "$puzzle" 1)
-if ! echo "$limited_output" | grep -q "Found 1 solution(s)."; then
+if ! echo "$limited_output" | grep -Fq "Found 1 solution(s)."; then
     echo "Test failed: max_solutions limit did not work"
     exit 1
 fi
