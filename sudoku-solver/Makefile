@@ -3,17 +3,17 @@ include ../common.mk
 
 # per-example flags
 # CXXFLAGS += -pthread
-LDLIBS += -ltbb
 
 ## get it from the folder name
 TARGET := $(notdir $(CURDIR))
+## all *.cpp files in this folder
 SRCS   := $(wildcard *.cpp)
 OBJS   := $(SRCS:.cpp=.o)
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
