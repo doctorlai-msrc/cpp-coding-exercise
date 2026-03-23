@@ -6,7 +6,7 @@ puzzle="53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5
 expected="534678912672195348198342567859761423426853791713924856961537284287419635345286179"
 
 output=$(./sudoku-solver "$puzzle")
-if ! echo "$output" | grep -q "$expected"; then
+if ! echo "$output" | grep -Fq "$expected"; then
     echo "Test failed: expected solution was not found"
     exit 1
 fi
