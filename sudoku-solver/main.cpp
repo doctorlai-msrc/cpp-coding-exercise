@@ -19,7 +19,8 @@ Output:
 
 namespace {
 
-struct SudokuState {
+struct SudokuState
+{
     std::array<int, 81> cells{};
     std::array<uint16_t, 9> row_mask{};
     std::array<uint16_t, 9> col_mask{};
