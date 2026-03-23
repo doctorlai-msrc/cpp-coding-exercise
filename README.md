@@ -35,6 +35,7 @@ Examples include (and will expand to):
     * Encoding
         * [rot47](./rot47/)
     * [prefix-sum](./prefix-sum/)
+    * [sudoku-solver](./sudoku-solver/)
     * [pi-monte-carlo](./pi-monte-carlo/)
     * [pi](./pi)
 * Data Structures
